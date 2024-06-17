@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "883377091503",
+    "project_id": "reddit-wannabe",
+    "storage_bucket": "reddit-wannabe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:883377091503:android:320251f135476adaf1755a",
+        "android_client_info": {
+          "package_name": "com.anonymous.redditwannabe"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHG9hs42VfcMhymBgW9pA3qKsixlDefy4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
