@@ -6,6 +6,8 @@ import { ExternalLink } from '@/components/ExternalLink';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import { SafeAreaView} from 'react-native';
+import Post from '../../components/Post';
 
 export default function TabTwoScreen() {
   return (
@@ -84,6 +86,9 @@ export default function TabTwoScreen() {
           ),
         })}
       </Collapsible>
+      <SafeAreaView style={styles.container}>
+      <Post />
+    </SafeAreaView>
     </ParallaxScrollView>
   );
 }
@@ -99,4 +104,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 8,
   },
+  container: {
+    flex: 1,
+    backgroundColor: '#f0f0f0',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }
 });
