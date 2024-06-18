@@ -1,11 +1,11 @@
 import React from 'react';
 import { SafeAreaView, StyleSheet } from 'react-native';
-import Post from '../../components/Post';
+import PostList from '../../components/PostList';
 
 export default function App() {
   return (
     <SafeAreaView style={styles.container}>
-      <Post />
+      <PostList />
     </SafeAreaView>
   );
 }

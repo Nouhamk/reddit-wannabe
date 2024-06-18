@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons'; // You need to install the expo vector icons package
 
-const Post = () => {
+const Post = ({ title, content, username, time }: { title: string, content: string, username: string, time: string }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -21,11 +21,8 @@ const Post = () => {
           <FontAwesome5 name="ellipsis-h" size={24} color="#555" />
         </TouchableOpacity>
       </View>
-      <Text style={styles.title}>This is a title</Text>
-      <Text style={styles.content}>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce malesuada
-        libero ut sem maximus egestas...
-      </Text>
+      <Text style={styles.title}>{title}</Text>
+      <Text style={styles.content}>{content}</Text>
       <View style={styles.actions}>
         <TouchableOpacity style={styles.actionButton}>
           <FontAwesome5 name="arrow-up" size={20} color="#555" />
