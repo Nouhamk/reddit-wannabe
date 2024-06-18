@@ -1,0 +1,22 @@
+name: Expo Pipeline
+
+on:
+  push:
+    branches:
+      - '*'
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: start app
+        run: npx expo start
+        
+
+      
