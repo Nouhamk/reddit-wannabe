@@ -6,7 +6,7 @@ import { db } from '../firebase-config';
 import Post from './Post';
 
 const PostList = () => {
-  const [posts, setPosts] = useState<{ id: string }[]>([]);
+  const [posts, setPosts] = useState<{ id: string, title: string, post: string, username: string }[]>([]);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -14,7 +14,9 @@ const PostList = () => {
         const querySnapshot = await getDocs(collection(db, 'Posts'));
         const postsData = querySnapshot.docs.map(doc => ({
           id: doc.id,
-          ...doc.data()
+          title: doc.data().title,
+          post: doc.data().post,
+          username: doc.data().username
         }));
         setPosts(postsData);
       } catch (error) {
@@ -30,7 +32,7 @@ const PostList = () => {
       data={posts}
       keyExtractor={(item) => item.id}
       renderItem={({ item }) => (
-        <Post title={item.title} content={item.post} username="Username" time="3 hours ago" />
+        <Post title={item.title} content={item.post} username={item.username} time="3 hours ago" />
       )}
     />
   );
