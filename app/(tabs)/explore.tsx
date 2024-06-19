@@ -7,7 +7,6 @@ import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { SafeAreaView} from 'react-native';
-import Post from '../../components/Post';
 
 export default function TabTwoScreen() {
   return (
@@ -87,7 +86,6 @@ export default function TabTwoScreen() {
         })}
       </Collapsible>
       <SafeAreaView style={styles.container}>
-      <Post />
     </SafeAreaView>
     </ParallaxScrollView>
   );
