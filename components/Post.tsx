@@ -11,7 +11,7 @@ const Post = ({ title, content, username, time }: { title: string, content: stri
           style={styles.avatar}
         />
         <View style={styles.headerText}>
-          <Text style={styles.username}>Username</Text>
+          <Text style={styles.username}>{username}</Text>
           <Text style={styles.time}>3 hours ago</Text>
         </View>
         <TouchableOpacity style={styles.followButton}>
