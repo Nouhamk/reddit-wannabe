@@ -1,42 +1,55 @@
-// AuthPage.tsx
-
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, View, TextInput, Button, Image, TouchableOpacity } from "react-native";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { setDoc, doc, getFirestore } from "firebase/firestore";
+import { db } from '../firebase-config';
 
 interface Props {
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const AuthPage: React.FC<Props> = ({ setIsAuthenticated }) => {
-  const [email, onChangeEmail] = React.useState("");
-  const [password, onChangePassword] = React.useState("");
-  const [isSignUp, setIsSignUp] = React.useState(true); // To toggle between sign up and sign in
+  const [email, onChangeEmail] = useState("");
+  const [password, onChangePassword] = useState("");
+  const [accountName, onChangeAccountName] = useState("");
+  const [isSignUp, setIsSignUp] = useState(true);
   const auth = getAuth();
+  const firestore = getFirestore();
 
-  const handleAuthAction = () => {
-    if (isSignUp) {
-      createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          setIsAuthenticated(true);
-          const user = userCredential.user;
-          console.log("User signed up:", user.email);
-        })
-        .catch((error) => {
-          console.error("Sign Up Error:", error.message);
-        });
-    } else {
-      signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          setIsAuthenticated(true);
-          const user = userCredential.user;
-          console.log("User signed in:", user.email);
-        })
-        .catch((error) => {
-          console.error("Sign In Error:", error.message);
-        });
+  const handleSignUp = async () => {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      // Create user profile in Firestore
+      await setDoc(doc(firestore, "users", user.uid), {
+        email: email,
+        accountName: accountName,
+        age: null, // Add more fields as needed
+        followers: 0,
+        following: 0,
+        avatarUrl: '', // Placeholder for avatar URL
+      });
+
+      setIsAuthenticated(true);
+      console.log("User signed up:", user.email);
+    } catch (error: any) {
+      console.error("Sign Up Error:", error.message);
     }
   };
+
+  const handleSignIn = async () => {
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      setIsAuthenticated(true);
+      console.log("User signed in:", user.email);
+    } catch (error: any) {
+      console.error("Sign In Error:", error.message);
+    }
+  };
+
   const toggleAuthMode = () => {
     setIsSignUp(!isSignUp);
   };
@@ -44,7 +57,7 @@ const AuthPage: React.FC<Props> = ({ setIsAuthenticated }) => {
   return (
     <View style={styles.container}>
       <Image
-        source={require('../assets/images/Reddit-Logo.png')} 
+        source={require('../assets/images/Reddit-Logo.png')}
         style={styles.logo}
       />
       <Text style={styles.title}>{isSignUp ? "Sign Up to Reddit" : "Sign In to Reddit"}</Text>
@@ -64,13 +77,22 @@ const AuthPage: React.FC<Props> = ({ setIsAuthenticated }) => {
         secureTextEntry={true}
         autoCapitalize="none"
       />
+      {isSignUp && (
+        <TextInput
+          style={styles.input}
+          onChangeText={onChangeAccountName}
+          value={accountName}
+          placeholder="Account Name"
+          autoCapitalize="words"
+        />
+      )}
       <View style={styles.buttonContainer}>
-        <Button title={isSignUp ? "Sign Up" : "Sign In"} onPress={handleAuthAction} color="#FF5700" />
+        <Button title={isSignUp ? "Sign Up" : "Sign In"} onPress={isSignUp ? handleSignUp : handleSignIn} color="#FF5700" />
       </View>
       <Text style={styles.orText}>OR</Text>
       <TouchableOpacity style={styles.authButton}>
         <Image
-          source={require('../assets/images/Google-logo.png')} 
+          source={require('../assets/images/Google-logo.png')}
           style={styles.authLogo}
         />
         <Text style={styles.authText}>Continue with Google</Text>
