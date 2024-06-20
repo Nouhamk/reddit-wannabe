@@ -1,8 +1,15 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
-import { FontAwesome5 } from '@expo/vector-icons'; // You need to install the expo vector icons package
+import { FontAwesome5 } from '@expo/vector-icons'; // Make sure to install @expo/vector-icons package
 
-const Post = ({ title, content, username, time }: { title: string, content: string, username: string, time: string }) => {
+interface PostProps {
+  title: string;
+  content: string;
+  username: string;
+  time: string;
+}
+
+const Post = ({ title, content, username, time }: PostProps) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -12,7 +19,7 @@ const Post = ({ title, content, username, time }: { title: string, content: stri
         />
         <View style={styles.headerText}>
           <Text style={styles.username}>{username}</Text>
-          <Text style={styles.time}>3 hours ago</Text>
+          <Text style={styles.time}>{time}</Text>
         </View>
         <TouchableOpacity style={styles.followButton}>
           <Text style={styles.followButtonText}>Follow</Text>
