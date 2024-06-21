@@ -22,6 +22,7 @@ const PostCreationPage = () => {
         title,
         content,
         email: user.email, // Storing the user email
+        userId: user.uid,
         createdAt: serverTimestamp(),
       });
       navigation.goBack(); // Navigate back after successful submission
