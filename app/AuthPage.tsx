@@ -11,7 +11,7 @@ interface Props {
 const AuthPage: React.FC<Props> = ({ setIsAuthenticated }) => {
   const [email, onChangeEmail] = useState("");
   const [password, onChangePassword] = useState("");
-  const [accountName, onChangeAccountName] = useState("");
+  const [username, onChangeUsername] = useState("");
   const [isSignUp, setIsSignUp] = useState(true);
   const auth = getAuth();
   const firestore = getFirestore();
@@ -24,7 +24,7 @@ const AuthPage: React.FC<Props> = ({ setIsAuthenticated }) => {
       // Create user profile in Firestore
       await setDoc(doc(firestore, "users", user.uid), {
         email: email,
-        accountName: accountName,
+        username: username,
         age: null, // Add more fields as needed
         followers: 0,
         following: 0,
@@ -80,9 +80,9 @@ const AuthPage: React.FC<Props> = ({ setIsAuthenticated }) => {
       {isSignUp && (
         <TextInput
           style={styles.input}
-          onChangeText={onChangeAccountName}
-          value={accountName}
-          placeholder="Account Name"
+          onChangeText={onChangeUsername}
+          value={username}
+          placeholder="Username"
           autoCapitalize="words"
         />
       )}
