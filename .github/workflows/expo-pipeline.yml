@@ -15,7 +15,7 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: start app
-        run: npx expo start
+      - name: build app
+        run: eas build
 
 
