@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from 'expo-router';
-import { db, auth } from '../../firebase-config'; // Importing auth as well
+import { db, auth } from '../../firebase-config'; 
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 
 const PostCreationPage = () => {
@@ -23,6 +23,7 @@ const PostCreationPage = () => {
         content,
         email: user.email, // Storing the user email
         createdAt: serverTimestamp(),
+        uid: user.uid, // Storing the user ID
       });
       navigation.goBack(); // Navigate back after successful submission
     } catch (error) {
@@ -45,14 +46,14 @@ const PostCreationPage = () => {
         onChangeText={setTitle}
         value={title}
         placeholder="Title"
-        placeholderTextColor="#aaa"
+        placeholderTextColor="Title"
       />
       <TextInput
         style={styles.contentInput}
         onChangeText={setContent}
         value={content}
         placeholder="Content"
-        placeholderTextColor="#aaa"
+        placeholderTextColor="#Text"
         multiline
       />
       <View style={styles.iconBar}>
