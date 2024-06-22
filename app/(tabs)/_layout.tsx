@@ -27,6 +27,16 @@ export default function TabLayout() {
             headerShown: false, // Hide header for this screen
           }}
         />
+
+        <Tabs.Screen
+          name="CommunityList"
+          options={{
+            tabBarIcon: ({ color, focused }) => (
+              <TabBarIcon name={focused ? 'people' : 'people-outline'} color={color} />
+            ),
+            headerShown: false, // Hide header for this screen
+          }}
+        />
         <Tabs.Screen
           name="explore"
           options={{
