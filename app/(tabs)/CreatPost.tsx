@@ -1,14 +1,22 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useNavigation } from 'expo-router';
-import { db, auth } from '../../firebase-config'; // Importing auth as well
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import { useNavigation, useFocusEffect } from 'expo-router';
+import { db, auth } from '../../firebase-config'; 
+import { addDoc, collection, getDoc, doc, serverTimestamp } from 'firebase/firestore';
 
 const PostCreationPage = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const navigation = useNavigation();
+
+  useFocusEffect(
+    React.useCallback(() => {
+      // Reset the state when the screen is focused
+      setTitle('');
+      setContent('');
+    }, [])
+  );
 
   const handleNext = async () => {
     try {
@@ -18,12 +26,23 @@ const PostCreationPage = () => {
         return;
       }
 
+      // Fetch the user's profile from Firestore to get the username
+      const userDocRef = doc(db, 'users', user.uid);
+      const userDoc = await getDoc(userDocRef);
+      if (!userDoc.exists()) {
+        console.log('User document does not exist');
+        return;
+      }
+      const userData = userDoc.data();
+
       await addDoc(collection(db, 'Posts'), {
         title,
         content,
         email: user.email, // Storing the user email
         userId: user.uid,
         createdAt: serverTimestamp(),
+        uid: user.uid, // Storing the user ID
+        username: userData?.username, // Storing the user username
       });
       navigation.goBack(); // Navigate back after successful submission
     } catch (error) {
@@ -46,14 +65,14 @@ const PostCreationPage = () => {
         onChangeText={setTitle}
         value={title}
         placeholder="Title"
-        placeholderTextColor="#aaa"
+        placeholderTextColor="Title"
       />
       <TextInput
         style={styles.contentInput}
         onChangeText={setContent}
         value={content}
         placeholder="Content"
-        placeholderTextColor="#aaa"
+        placeholderTextColor="#Text"
         multiline
       />
       <View style={styles.iconBar}>
