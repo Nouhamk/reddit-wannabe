@@ -1,50 +1,42 @@
-# Welcome to your Expo app 👋
+# Reddit Wannabe App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+## Overview
 
-## Get started
+Reddit Wannabe is a mobile application built with React Native and Firebase. The app mimics some core functionalities of Reddit, allowing users to create posts, comment on posts, and follow other users. It leverages Firebase for authentication, Firestore for database management, and Expo for development and testing.
 
-1. Install dependencies
+## Features
 
-   ```bash
+- **User Authentication**: Sign up, sign in, and sign out using Firebase Authentication.
+- **Create Posts**: Users can create and publish posts with a title and content.
+- **User Profiles**: Each user has a profile page showing their username, followers, following, and their posts.
+- **Real-time Updates**: Posts and user data are updated in real-time using Firestore.
+
+## Screens
+
+1. **Home**: Displays a list of all posts.
+2. **Create Post**: Page to create a new post.
+3. **User Profile**: Shows the user's profile details and their posts.
+
+## Tech Stack
+
+- **React Native**: For building the mobile application.
+- **Firebase**: For authentication and Firestore database.
+- **Expo**: For development, building, and testing the application.
+- **React Navigation**: For navigating between different screens.
+
+## Installation
+
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/your-username/reddit-wannabe.git
+   cd reddit-wannabe
+
+2. Install dependencies:
+   ```sh
    npm install
-   ```
+   
+3. Start App:
+   ```sh
+   npx expo start -c
+   
 
-2. Start the app
-
-   ```bash
-    npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
