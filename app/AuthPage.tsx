@@ -1,17 +1,18 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View, TextInput, Button, Image, TouchableOpacity } from "react-native";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-import { setDoc, doc, getFirestore } from "firebase/firestore";
+import { setDoc, doc, getFirestore, serverTimestamp } from "firebase/firestore";
 import { db } from '../firebase-config';
 
 interface Props {
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
 }
+const defaultAvatarUrl = 'assets/avatars/avatar.png';
 
 const AuthPage: React.FC<Props> = ({ setIsAuthenticated }) => {
   const [email, onChangeEmail] = useState("");
   const [password, onChangePassword] = useState("");
-  const [accountName, onChangeAccountName] = useState("");
+  const [username, onChangeUsername] = useState("");
   const [isSignUp, setIsSignUp] = useState(true);
   const auth = getAuth();
   const firestore = getFirestore();
@@ -24,11 +25,12 @@ const AuthPage: React.FC<Props> = ({ setIsAuthenticated }) => {
       // Create user profile in Firestore
       await setDoc(doc(firestore, "users", user.uid), {
         email: email,
-        accountName: accountName,
+        username: username,
         age: null, // Add more fields as needed
         followers: 0,
         following: 0,
-        avatarUrl: '', // Placeholder for avatar URL
+        avatarUrl: defaultAvatarUrl,
+        createdAt: serverTimestamp(), 
       });
 
       setIsAuthenticated(true);
@@ -80,9 +82,9 @@ const AuthPage: React.FC<Props> = ({ setIsAuthenticated }) => {
       {isSignUp && (
         <TextInput
           style={styles.input}
-          onChangeText={onChangeAccountName}
-          value={accountName}
-          placeholder="Account Name"
+          onChangeText={onChangeUsername}
+          value={username}
+          placeholder="Username"
           autoCapitalize="words"
         />
       )}
