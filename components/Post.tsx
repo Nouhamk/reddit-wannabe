@@ -32,17 +32,17 @@ const Post = ({ title, content, username, time }: PostProps) => {
       <Text style={styles.content}>{content}</Text>
       <View style={styles.actions}>
         <TouchableOpacity style={styles.actionButton}>
-          <FontAwesome5 name="arrow-up" size={20} color="#555" />
+          <FontAwesome5 name="arrow-up" size={20} color="#878A8C" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.actionButton}>
-          <FontAwesome5 name="arrow-down" size={20} color="#555" />
+          <FontAwesome5 name="arrow-down" size={20} color="#878A8C" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.actionButton}>
-          <FontAwesome5 name="comment" size={20} color="#555" />
+          <FontAwesome5 name="comment" size={20} color="#878A8C" />
           <Text style={styles.actionButtonText}>Comment</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.actionButton}>
-          <FontAwesome5 name="share" size={20} color="#555" />
+          <FontAwesome5 name="share" size={20} color="#878A8C" />
           <Text style={styles.actionButtonText}>Share</Text>
         </TouchableOpacity>
       </View>
@@ -53,11 +53,10 @@ const Post = ({ title, content, username, time }: PostProps) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#fff',
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: '#ccc',
+    borderBottomWidth: 1, // Add bottom border
+    borderBottomColor: '#ccc', // Border color
     padding: 16,
-    margin: 8,
+    marginHorizontal: 8,
   },
   header: {
     flexDirection: 'row',
@@ -84,14 +83,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#007bff',
     paddingHorizontal: 16,
     paddingVertical: 8,
-    borderRadius: 8,
+    borderRadius: 20, // More rounded corners
+    marginRight: 8,  
   },
   followButtonText: {
     color: '#fff',
     fontWeight: 'bold',
   },
   moreButton: {
-    marginLeft: 'auto',
+    marginLeft: 8,
   },
   title: {
     fontSize: 18,

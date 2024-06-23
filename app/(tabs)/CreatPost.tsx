@@ -39,6 +39,7 @@ const PostCreationPage = () => {
         title,
         content,
         email: user.email, // Storing the user email
+        userId: user.uid,
         createdAt: serverTimestamp(),
         uid: user.uid, // Storing the user ID
         username: userData?.username, // Storing the user username
