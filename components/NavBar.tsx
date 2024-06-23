@@ -21,27 +21,32 @@ const NavBar = () => {
 
 const styles = StyleSheet.create({
   navBar: {
+    
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 16,
-    paddingVertical: 12,
+    paddingVertical: 20,
     backgroundColor: '#fff', // Background color similar to Reddit app
     borderBottomWidth: 1,
     borderBottomColor: '#ccc', // Border color
   },
   leftIcons: {
+    marginTop: 10,
     flexDirection: 'row',
     alignItems: 'center',
   },
   rightIcons: {
+    marginTop: 10,
     flexDirection: 'row',
     alignItems: 'center',
   },
   logo: {
+    
     marginLeft: 8,
   },
   title: {
+    marginTop: 10,
     fontSize: 18,
     fontWeight: 'bold',
     color: '#FF4500', // Title color similar to Reddit app
