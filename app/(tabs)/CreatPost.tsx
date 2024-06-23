@@ -1,20 +1,44 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+// src/(tabs)/PostCreationPage.tsx
+
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import { Picker } from "@react-native-picker/picker";
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation, useFocusEffect } from 'expo-router';
 import { db, auth } from '../../firebase-config'; 
-import { addDoc, collection, getDoc, doc, serverTimestamp } from 'firebase/firestore';
+import { addDoc, collection, getDoc, doc, serverTimestamp, query, where, getDocs } from 'firebase/firestore';
 
 const PostCreationPage = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [selectedCommunity, setSelectedCommunity] = useState<string>(''); // State to hold selected community ID
+  const [userCommunities, setUserCommunities] = useState<any[]>([]); // State to hold user's communities
   const navigation = useNavigation();
+
+  // Fetch user's communities on component mount
+  useEffect(() => {
+    const fetchUserCommunities = async () => {
+      const user = auth.currentUser;
+      if (user) {
+        const q = query(collection(db, 'Communities'), where('members', 'array-contains', user.uid));
+        const querySnapshot = await getDocs(q);
+        const communitiesData = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          name: doc.data().name,
+        }));
+        setUserCommunities(communitiesData);
+      }
+    };
+
+    fetchUserCommunities();
+  }, []);
 
   useFocusEffect(
     React.useCallback(() => {
       // Reset the state when the screen is focused
       setTitle('');
       setContent('');
+      setSelectedCommunity('');
     }, [])
   );
 
@@ -35,6 +59,12 @@ const PostCreationPage = () => {
       }
       const userData = userDoc.data();
 
+      // Validate selected community
+      if (!selectedCommunity) {
+        console.log('Please select a community');
+        return;
+      }
+
       await addDoc(collection(db, 'Posts'), {
         title,
         content,
@@ -43,6 +73,7 @@ const PostCreationPage = () => {
         createdAt: serverTimestamp(),
         uid: user.uid, // Storing the user ID
         username: userData?.username, // Storing the user username
+        communityId: selectedCommunity, // Adding community ID to post
       });
       navigation.goBack(); // Navigate back after successful submission
     } catch (error) {
@@ -75,6 +106,16 @@ const PostCreationPage = () => {
         placeholderTextColor="#Text"
         multiline
       />
+      <Picker
+        selectedValue={selectedCommunity}
+        style={styles.picker}
+        onValueChange={(itemValue) => setSelectedCommunity(itemValue)}
+      >
+        <Picker.Item label="Select Community" value="" />
+        {userCommunities.map((community) => (
+          <Picker.Item key={community.id} label={community.name} value={community.id} />
+        ))}
+      </Picker>
       <View style={styles.iconBar}>
         <TouchableOpacity style={styles.icon}>
           <Ionicons name="image-outline" size={24} color="black" />
@@ -129,6 +170,9 @@ const styles = StyleSheet.create({
   },
   icon: {
     marginRight: 16,
+  },
+  picker: {
+    marginBottom: 16,
   },
 });
 

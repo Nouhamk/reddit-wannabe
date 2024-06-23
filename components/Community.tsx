@@ -1,14 +1,15 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { Link } from 'expo-router';
 
 interface CommunityProps {
-  communityId: string; // Community ID
+  communityId: string;
   name: string;
   description: string;
   profileImage: string;
-  userId: string; // Current user's ID
-  members: string[]; // List of community members
-  onJoin: () => void; // Function to handle joining the community
+  userId: string;
+  members: string[];
+  onJoin: () => void;
 }
 
 const Community = ({ communityId, name, description, profileImage, userId, members, onJoin }: CommunityProps) => {
@@ -16,18 +17,21 @@ const Community = ({ communityId, name, description, profileImage, userId, membe
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Image source={{ uri: profileImage }} style={styles.profileImage} />
-        <View style={styles.headerText}>
-          <Text style={styles.name}>{name}</Text>
-        </View>
-        {!isMember && (
-          <TouchableOpacity style={[styles.button, styles.buttonJoin]} onPress={onJoin}>
-            <Text style={styles.buttonText}>Join</Text>
-          </TouchableOpacity>
-        )}
-      </View>
-      <Text style={styles.description}>{description}</Text>
+      <Link href={`/community/${communityId}`} style={styles.link}>
+        <View style={styles.header}>
+          <Image source={{ uri: profileImage }} style={styles.profileImage} />
+          <View style={styles.headerText}>
+            <Text style={styles.name}>{name}</Text>
+            <Text style={styles.description}>{description}</Text>
+          </View>
+          </View>
+      </Link>
+          {!isMember && (
+            <TouchableOpacity style={styles.buttonJoin} onPress={onJoin}>
+              <Text style={styles.buttonText}>Join</Text>
+            </TouchableOpacity>
+          )}
+        
     </View>
   );
 };
@@ -39,43 +43,46 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#ccc',
     padding: 16,
-    margin: 2,
+    marginVertical: 8,
+    marginHorizontal: 16,
+  },
+  link: {
+    textDecorationLine: 'none',
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 8,
   },
   profileImage: {
     width: 50,
     height: 50,
     borderRadius: 25,
-    marginRight: 8,
+    marginRight: 16,
   },
   headerText: {
     flex: 1,
   },
   name: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
+    color: '#333',
+    marginBottom: 4,
   },
-  button: {
-    padding: 10,
-    borderRadius: 5,
+  description: {
+    fontSize: 14,
+    color: '#555',
   },
   buttonJoin: {
     backgroundColor: '#007bff',
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 20, // More rounded corners
-    marginRight: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 20,
+    marginLeft: 'auto', // Align button to the right
   },
   buttonText: {
-    color: 'white',
+    color: '#fff',
     fontWeight: 'bold',
-  },
-  description: {
-    fontSize: 16,
+    fontSize: 14,
   },
 });
 
