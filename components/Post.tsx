@@ -17,7 +17,7 @@ interface CommentData {
   postId: string;
   content: string;
   username: string;
-  time: string; // Ajouter la propriété 'time'
+  time: string; 
 }
 
 const Post = ({ postId, title, content, username, time }: PostProps) => {
@@ -129,7 +129,7 @@ const Post = ({ postId, title, content, username, time }: PostProps) => {
     <View style={styles.container}>
       <View style={styles.header}>
         <Image
-          source={{ uri: 'https://via.placeholder.com/50' }} // Example avatar image
+          source={{ uri: 'https://i.redd.it/rrz3hmsxcll71.png' }} 
           style={styles.avatar}
         />
         <View style={styles.headerText}>

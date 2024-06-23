@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from 'expo-router';
-import { db, auth } from '../firebase-config'; // Importing auth as well
+import { db, auth } from '../../firebase-config'; // Importing auth as well
 import { addDoc, collection, serverTimestamp, updateDoc, doc, arrayUnion } from 'firebase/firestore';
 
 const CreateCommunity = () => {

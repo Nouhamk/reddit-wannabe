@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, FlatList, StyleSheet } from 'react-native';
 import { collection, onSnapshot, query, orderBy, updateDoc, doc, arrayUnion } from 'firebase/firestore';
-import { db, auth } from '../../firebase-config'; // Adjust path as necessary
+import { db, auth } from '../../firebase-config';
 import Community from '../../components/Community';
 
 interface CommunityData {
@@ -9,7 +9,7 @@ interface CommunityData {
   name: string;
   description: string;
   profileImage: string;
-  members: string[]; // List of community members
+  members: string[];
 }
 
 const CommunityList = () => {
@@ -89,17 +89,10 @@ const CommunityList = () => {
           onJoin={() => handleJoinCommunity(item.id)}
         />
       )}
-      contentContainerStyle={styles.flatListContent}
-      style={styles.flatList}
+      
     />
   );
 };
 
-const styles = StyleSheet.create({
-  flatList: {
-    flex: 1,
-  },
-  flatListContent: {},
-});
 
 export default CommunityList;
