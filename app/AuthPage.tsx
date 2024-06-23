@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View, TextInput, Button, Image, TouchableOpacity } from "react-native";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-import { setDoc, doc, getFirestore } from "firebase/firestore";
+import { setDoc, doc, getFirestore, serverTimestamp } from "firebase/firestore";
 import { db } from '../firebase-config';
 
 interface Props {
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
 }
+const defaultAvatarUrl = 'assets/avatars/avatar.png';
 
 const AuthPage: React.FC<Props> = ({ setIsAuthenticated }) => {
   const [email, onChangeEmail] = useState("");
@@ -28,7 +29,8 @@ const AuthPage: React.FC<Props> = ({ setIsAuthenticated }) => {
         age: null, // Add more fields as needed
         followers: 0,
         following: 0,
-        avatarUrl: '', // Placeholder for avatar URL
+        avatarUrl: defaultAvatarUrl,
+        createdAt: serverTimestamp(), 
       });
 
       setIsAuthenticated(true);

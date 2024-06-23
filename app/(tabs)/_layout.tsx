@@ -17,7 +17,7 @@ export default function TabLayout() {
           tabBarActiveTintColor: '#FF4500', // Orange color for active tab
           tabBarInactiveTintColor: '#878A8C', // Default inactive color
         }}
-      >
+      />
         <Tabs.Screen
           name="index"
           options={{
@@ -38,14 +38,14 @@ export default function TabLayout() {
           }}
         />
         <Tabs.Screen
-          name="explore"
-          options={{
-            tabBarIcon: ({ color, focused }) => (
-              <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
-            ),
-            headerShown: false, // Hide header for this screen
-          }}
-        />
+        name="Profile"
+        options={{
+          title: 'Profile',
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name={focused ? 'person' : 'person-outline'} size={24} color={color} />
+    ),
+        }}
+      />
         <Tabs.Screen
           name="CreatPost"
           options={{
@@ -55,7 +55,6 @@ export default function TabLayout() {
             headerShown: false, // Hide header for this screen
           }}
         />
-      </Tabs>
     </View>
   );
 }

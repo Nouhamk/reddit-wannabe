@@ -1,6 +1,7 @@
+// PostList.tsx
 import React, { useEffect, useState } from 'react';
-import { FlatList, StyleSheet } from 'react-native';
-import { collection, onSnapshot, DocumentData, query, orderBy } from 'firebase/firestore';
+import { View, FlatList, StyleSheet } from 'react-native';
+import { collection, onSnapshot, DocumentData, query, where, orderBy } from 'firebase/firestore';
 import { db } from '../firebase-config';
 import Post from './Post';
 
@@ -12,7 +13,11 @@ interface PostData {
   time: string;
 }
 
-const PostList = () => {
+interface PostListProps {
+  userId?: string; // Optional userId prop to filter posts by user
+}
+
+const PostList: React.FC<PostListProps> = ({ userId }) => {
   const [posts, setPosts] = useState<PostData[]>([]);
 
   useEffect(() => {
