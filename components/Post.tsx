@@ -54,7 +54,7 @@ const Post = ({ postId, title, content, username, time }: PostProps) => {
             id: doc.id,
             postId: postId,
             content: data.content || '',
-            username: data.username || 'Anonymous',
+            username: data.username,
             time: data.createdAt ? data.createdAt.toDate().toLocaleString() : 'No Date',
           };
         });
@@ -103,7 +103,7 @@ const Post = ({ postId, title, content, username, time }: PostProps) => {
       const newCommentData = {
         postId: postId,
         content: newComment,
-        username: user.displayName || 'Anonymous',
+        username: username,
         time: new Date().toLocaleString(), // Ajout de la propriété 'time'
         createdAt: new Date(),
       };
@@ -122,6 +122,9 @@ const Post = ({ postId, title, content, username, time }: PostProps) => {
     setShowCommentForm(!showCommentForm); // Basculer l'état de l'affichage du formulaire de commentaire
   };
 
+  const currentUser = auth.currentUser as { username?: string } | null;
+  const isCurrentUserPost = currentUser && currentUser.username === username;
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -133,9 +136,11 @@ const Post = ({ postId, title, content, username, time }: PostProps) => {
           <Text style={styles.username}>{username}</Text>
           <Text style={styles.time}>{time}</Text>
         </View>
-        <TouchableOpacity style={styles.followButton}>
-          <Text style={styles.followButtonText}>Follow</Text>
-        </TouchableOpacity>
+        {!isCurrentUserPost && (
+          <TouchableOpacity style={styles.followButton}>
+            <Text style={styles.followButtonText}>Follow</Text>
+          </TouchableOpacity>
+        )}
         <TouchableOpacity style={styles.moreButton}>
           <FontAwesome5 name="ellipsis-h" size={24} color="#555" />
         </TouchableOpacity>
