@@ -55,6 +55,15 @@ export default function TabLayout() {
             headerShown: false, // Hide header for this screen
           }}
         />
+        <Tabs.Screen
+          name="CreateCommunity"
+          options={{
+            tabBarIcon: ({ color, focused }) => (
+              <TabBarIcon name={focused ? 'add-circle' : 'add-circle-outline'} color={color} />
+            ),
+            headerShown: false, // Hide header for this screen
+          }}
+        />
       </Tabs>
     </View>
   );
