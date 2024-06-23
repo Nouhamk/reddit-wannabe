@@ -7,7 +7,7 @@ import { db } from '../firebase-config';
 interface Props {
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
 }
-const defaultAvatarUrl = 'assets/avatars/avatar.png';
+const defaultAvatarUrl = 'https://i.redd.it/rrz3hmsxcll71.png';
 
 const AuthPage: React.FC<Props> = ({ setIsAuthenticated }) => {
   const [email, onChangeEmail] = useState("");
@@ -62,7 +62,7 @@ const AuthPage: React.FC<Props> = ({ setIsAuthenticated }) => {
         source={require('../assets/images/Reddit-Logo.png')}
         style={styles.logo}
       />
-      <Text style={styles.title}>{isSignUp ? "Sign Up to Reddit" : "Sign In to Reddit"}</Text>
+      <Text style={styles.title}>{isSignUp ? "Sign Up to Reddit Wannabe" : "Sign In to Reddit Wannabe"}</Text>
       <TextInput
         style={styles.input}
         onChangeText={onChangeEmail}
