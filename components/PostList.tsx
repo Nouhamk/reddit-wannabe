@@ -21,31 +21,30 @@ const PostList: React.FC<PostListProps> = ({ userId }) => {
   const [posts, setPosts] = useState<PostData[]>([]);
 
   useEffect(() => {
-    let q = query(collection(db, 'Posts'), orderBy('createdAt', 'desc'));
-
-    if (userId) {
-      q = query(collection(db, 'Posts'), where('uid', '==', userId), orderBy('createdAt', 'desc'));
-    }
-
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const postsData: PostData[] = querySnapshot.docs.map((doc) => {
-        const data = doc.data();
-        return {
-          id: doc.id,
-          title: data.title || 'No Title',
-          content: data.content || 'No Content',
-          username: data.username,
-          time: data.createdAt ? data.createdAt.toDate().toLocaleString() : 'No Date',
-        };
+    const fetchPosts = () => {
+      const q = query(collection(db, 'Posts'), orderBy('createdAt', 'desc'));
+      const unsubscribe = onSnapshot(q, (querySnapshot) => {
+        const fetchedPosts: PostData[] = querySnapshot.docs.map((doc) => {
+          const data = doc.data();
+          return {
+            id: doc.id,
+            title: data.title || 'No Title',
+            content: data.content || 'No Content',
+            username: data.username || 'Anonymous',
+            time: data.createdAt ? data.createdAt.toDate().toLocaleString() : 'No Date',
+          };
+        });
+        setPosts(fetchedPosts);
+      }, (error) => {
+        console.error('Error fetching posts: ', error);
       });
-      setPosts(postsData);
-    }, (error) => {
-      console.error('Error fetching posts: ', error);
-    });
+      return unsubscribe;
+    };
 
-    // Clean up the listener on unmount
-    return () => unsubscribe();
-  }, [userId]);
+    const unsubscribePosts = fetchPosts();
+
+    return () => unsubscribePosts();
+  }, []);
 
   return (
     <FlatList
@@ -53,6 +52,7 @@ const PostList: React.FC<PostListProps> = ({ userId }) => {
       keyExtractor={(item) => item.id}
       renderItem={({ item }) => (
         <Post
+          postId={item.id}
           title={item.title}
           content={item.content}
           username={item.username}
@@ -67,8 +67,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f0f0f0',
-    alignItems: 'center',
-    justifyContent: 'center',
     padding: 8,
   },
 });
