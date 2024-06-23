@@ -3,7 +3,7 @@ import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-nativ
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from 'expo-router';
 import { db, auth } from '../firebase-config'; // Importing auth as well
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import { addDoc, collection, serverTimestamp, updateDoc, doc, arrayUnion } from 'firebase/firestore';
 
 const CreateCommunity = () => {
   const [communityName, setCommunityName] = useState('');
@@ -18,12 +18,20 @@ const CreateCommunity = () => {
         return;
       }
 
-      await addDoc(collection(db, 'Communities'), {
+      const communityDocRef = await addDoc(collection(db, 'Communities'), {
         name: communityName,
         description: description,
         creatorId: user.uid,
         createdAt: serverTimestamp(),
+        members: [user.uid], // Adding the creator as a member
       });
+
+      // Optionally update the user's document to include the new community
+      const userRef = doc(db, 'users', user.uid);
+      await updateDoc(userRef, {
+        communities: arrayUnion(communityDocRef.id),
+      });
+
       navigation.goBack(); // Navigate back after successful creation
     } catch (error) {
       console.error('Error creating community: ', error);
@@ -60,30 +68,30 @@ const CreateCommunity = () => {
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        padding: 16,
-      },
-      header: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: 16,
-      },
-      createButton: {
-        color: '#007BFF',
-        fontSize: 16,
-        fontWeight: 'bold',
-      },
-      input: {
-        fontSize: 16,
-        color: '#000',
-        borderBottomWidth: 1,
-        borderBottomColor: '#ccc',
-        marginBottom: 16,
-        padding: 8,
-      }
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    padding: 16,
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  createButton: {
+    color: '#007BFF',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  input: {
+    fontSize: 16,
+    color: '#000',
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
+    marginBottom: 16,
+    padding: 8,
+  },
 });
 
 export default CreateCommunity;

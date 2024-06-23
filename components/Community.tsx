@@ -2,12 +2,18 @@ import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 
 interface CommunityProps {
+  communityId: string; // Community ID
   name: string;
   description: string;
   profileImage: string;
+  userId: string; // Current user's ID
+  members: string[]; // List of community members
+  onJoin: () => void; // Function to handle joining the community
 }
 
-const Community = ({ name, description, profileImage }: CommunityProps) => {
+const Community = ({ communityId, name, description, profileImage, userId, members, onJoin }: CommunityProps) => {
+  const isMember = members.includes(userId);
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -15,9 +21,11 @@ const Community = ({ name, description, profileImage }: CommunityProps) => {
         <View style={styles.headerText}>
           <Text style={styles.name}>{name}</Text>
         </View>
-        <TouchableOpacity style={[styles.button, styles.buttonJoin]}>
-          <Text style={styles.buttonText}>Join</Text>
-        </TouchableOpacity>
+        {!isMember && (
+          <TouchableOpacity style={[styles.button, styles.buttonJoin]} onPress={onJoin}>
+            <Text style={styles.buttonText}>Join</Text>
+          </TouchableOpacity>
+        )}
       </View>
       <Text style={styles.description}>{description}</Text>
     </View>
@@ -60,7 +68,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 20, // More rounded corners
-    marginRight: 8,  
+    marginRight: 8,
   },
   buttonText: {
     color: 'white',
